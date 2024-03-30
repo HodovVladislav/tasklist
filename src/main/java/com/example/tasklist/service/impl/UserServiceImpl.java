@@ -4,7 +4,6 @@ import com.example.tasklist.domain.exceptions.ResourceNotFoundException;
 import com.example.tasklist.domain.user.Role;
 import com.example.tasklist.domain.user.User;
 import com.example.tasklist.repository.UserRepository;
-import com.example.tasklist.repository.impl.UserRepositoryImpl;
 import com.example.tasklist.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
