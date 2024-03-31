@@ -74,7 +74,7 @@ public class TaskRepositoryImpl implements TaskRepository {
                 return Optional.ofNullable(TaskRowMapper.mapRow(rs));
             }
         } catch (SQLException e) {
-            throw new ResourceMappingException("Cannot find task by id.");
+            throw new ResourceMappingException("Cannot find task by id");
         }
     }
 
@@ -88,7 +88,7 @@ public class TaskRepositoryImpl implements TaskRepository {
                 return TaskRowMapper.mapRows(rs);
             }
         } catch (SQLException e) {
-            throw new ResourceMappingException("Cannot find tasks by user id.");
+            throw new ResourceMappingException("Cannot find tasks by user id");
         }
     }
 
@@ -101,7 +101,7 @@ public class TaskRepositoryImpl implements TaskRepository {
             statement.setLong(2, userId);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new ResourceMappingException("Cannot assign task to user by id.");
+            throw new ResourceMappingException("Cannot assign task to user by id");
         }
     }
 
@@ -123,7 +123,7 @@ public class TaskRepositoryImpl implements TaskRepository {
             statement.setLong(5, task.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new ResourceMappingException("Cannot update task.");
+            throw new ResourceMappingException("Cannot update task");
         }
     }
 
@@ -148,7 +148,7 @@ public class TaskRepositoryImpl implements TaskRepository {
                 task.setId(rs.getLong(1));
             }
         } catch (SQLException e) {
-            throw new ResourceMappingException("Cannot create task.");
+            throw new ResourceMappingException("Cannot create task");
         }
     }
 
@@ -162,7 +162,7 @@ public class TaskRepositoryImpl implements TaskRepository {
             statement.executeUpdate();
 
         } catch (SQLException e) {
-            throw new ResourceMappingException("Cannot delete task.");
+            throw new ResourceMappingException("Cannot delete task");
         }
     }
 

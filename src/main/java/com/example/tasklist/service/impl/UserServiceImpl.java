@@ -60,14 +60,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public boolean isTaskOwner(long userId, long taskId) {
-        userRepository.isTaskOwner(userId, taskId);
-
+    public boolean isTaskOwner(
+            final long userId,
+            final long taskId
+    ) {
+        return userRepository.isTaskOwner(userId, taskId);
     }
 
     @Override
     @Transactional
-    public void delete(long id) {
+    public void delete(
+            final long id
+    ) {
         userRepository.delete(id);
     }
 

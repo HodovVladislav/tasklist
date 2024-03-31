@@ -6,7 +6,9 @@ import com.example.tasklist.domain.user.User;
 import com.example.tasklist.service.UserService;
 import com.example.tasklist.service.props.JwtProperties;
 import com.example.tasklist.web.dto.auth.JwtResponse;
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +18,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
-import java.security.Key;
+import javax.crypto.SecretKey;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -30,49 +34,62 @@ public class JwtTokenProvider {
 
     private final UserDetailsService userDetailsService;
     private final UserService userService;
-    private Key key;
+    private SecretKey key;
 
     @PostConstruct
     public void init() {
         this.key = Keys.hmacShaKeyFor(jwtProperties.getSecret().getBytes());
     }
 
-    public String createAccessToken(long userID, String username, Set<Role> roles) {
-        Claims claims = Jwts.claims().setSubject(username);
-        claims.put("id", userID);
-        claims.put("roles", resolveRoles(roles));
-        Date now = new Date();
-        Date validity = new Date(now.getTime() + jwtProperties.getAccess());
+    public String createAccessToken(
+            final long userId,
+            final String username,
+            final Set<Role> roles
+    ) {
+        Claims claims = Jwts.claims()
+                .subject(username)
+                .add("id", userId)
+                .add("roles", resolveRoles(roles))
+                .build();
+        Instant validity = Instant.now()
+                .plus(jwtProperties.getAccess(), ChronoUnit.HOURS);
         return Jwts.builder()
-                .setClaims(claims)
-                .setIssuedAt(now)
-                .setExpiration(validity)
+                .claims(claims)
+                .expiration(Date.from(validity))
                 .signWith(key)
                 .compact();
     }
 
-    private List<String> resolveRoles(Set<Role> roles) {
+    private List<String> resolveRoles(
+            final Set<Role> roles
+    ) {
         return roles.stream()
                 .map(Enum::name)
                 .collect(Collectors.toList());
     }
 
-    public String createRefreshToken(long userId, String username) {
-        Claims claims = Jwts.claims().setSubject(username);
-        claims.put("id", userId);
-        Date now = new Date();
-        Date validity = new Date(now.getTime() + jwtProperties.getRefresh());
+    public String createRefreshToken(
+            final long userId,
+            final String username
+    ) {
+        Claims claims = Jwts.claims()
+                .subject(username)
+                .add("id", userId)
+                .build();
+        Instant validity = Instant.now()
+                .plus(jwtProperties.getRefresh(), ChronoUnit.DAYS);
         return Jwts.builder()
-                .setClaims(claims)
-                .setIssuedAt(now)
-                .setExpiration(validity)
+                .claims(claims)
+                .expiration(Date.from(validity))
                 .signWith(key)
                 .compact();
     }
 
-    public JwtResponse refreshUserTokens(String refreshToken) {
+    public JwtResponse refreshUserTokens(
+            final String refreshToken
+    ) {
         JwtResponse jwtResponse = new JwtResponse();
-        if (!validateToken(refreshToken)) {
+        if (!isValid(refreshToken)) {
             throw new AccessDeniedException();
         }
         long userId = Long.valueOf(getId(refreshToken));
@@ -84,41 +101,55 @@ public class JwtTokenProvider {
         return jwtResponse;
     }
 
-    public boolean validateToken(String token) {
+    public boolean isValid(
+            final String token
+    ) {
         Jws<Claims> claims = Jwts
-                .parserBuilder()
-                .setSigningKey(key)
+                .parser()
+                .verifyWith(key)
                 .build()
-                .parseClaimsJws(token);
-        return !claims.getBody().getExpiration().before(new Date());
+                .parseSignedClaims(token);
+        return claims.getPayload()
+                .getExpiration()
+                .after(new Date());
     }
 
-    public String getId(String token) {
+    public String getId(
+            final String token
+    ) {
         return Jwts
-                .parserBuilder()
-                .setSigningKey(key)
+                .parser()
+                .verifyWith(key)
                 .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .get("id")
-                .toString();
+                .parseSignedClaims(token)
+                .getPayload()
+                .get("id", String.class);
     }
 
-    private String getUsername(String token) {
+    private String getUsername(
+            final String token
+    ) {
         return Jwts
-                .parserBuilder()
-                .setSigningKey(key)
+                .parser()
+                .verifyWith(key)
                 .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .getBody()
+                .parseSignedClaims(token)
+                .getPayload()
                 .getSubject();
     }
 
-    public Authentication getAuthentication(String token) {
+    public Authentication getAuthentication(
+            final String token
+    ) {
         String username = getUsername(token);
-        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+        UserDetails userDetails = userDetailsService.loadUserByUsername(
+                username
+        );
+        return new UsernamePasswordAuthenticationToken(
+                userDetails,
+                "",
+                userDetails.getAuthorities()
+        );
     }
 
 }
