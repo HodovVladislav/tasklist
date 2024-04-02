@@ -15,22 +15,22 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 
-@Repository
+//@Repository
 @RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
 
     private final DataSourceConfig dataSourceConfig;
     private final String FIND_BY_ID = """
-            SELECT u.id as user_id,
-                   u.name as user_name,
-                   u.username as user_username,
-                   u.password as user_password,
-                   ur.role as user_role_role,
-                   t.id as task_id,
-                   t.title as task_title,
-                   t.description as task_description,
+            SELECT u.id              as user_id,
+                   u.name            as user_name,
+                   u.username        as user_username,
+                   u.password        as user_password,
+                   ur.role           as user_role_role,
+                   t.id              as task_id,
+                   t.title           as task_title,
+                   t.description     as task_description,
                    t.expiration_date as task_expiration_date,
-                   t.status as task_status
+                   t.status          as task_status
                         
             FROM users u
                 LEFT JOIN users_roles ur on u.id = ur.user_id
@@ -40,16 +40,16 @@ public class UserRepositoryImpl implements UserRepository {
             """;
 
     private final String FIND_BY_USERNAME = """
-            SELECT u.id as user_id,
-                   u.name as user_name,
-                   u.username as user_username,
-                   u.password as user_password,
-                   ur.role as user_role_role,
-                   t.id as task_id,
-                   t.title as task_title,
-                   t.description as task_description,
+            SELECT u.id              as user_id,
+                   u.name            as user_name,
+                   u.username        as user_username,
+                   u.password        as user_password,
+                   ur.role           as user_role_role,
+                   t.id              as task_id,
+                   t.title           as task_title,
+                   t.description     as task_description,
                    t.expiration_date as task_expiration_date,
-                   t.status as task_status
+                   t.status          as task_status
             FROM users u
                 LEFT JOIN users_roles ur on u.id = ur.user_id
                 LEFT JOIN users_tasks ut on u.id = ut.user_id
@@ -76,7 +76,8 @@ public class UserRepositoryImpl implements UserRepository {
             """;
 
     private final String IS_TASK_OWNER = """
-            SELECT exists(SELECT 1
+            SELECT exists(
+                          SELECT 1
                           FROM users_tasks
                           WHERE user_id = ?
                             AND task_id = ?)
