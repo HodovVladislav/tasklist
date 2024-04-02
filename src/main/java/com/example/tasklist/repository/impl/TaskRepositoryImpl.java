@@ -6,6 +6,7 @@ import com.example.tasklist.repository.DataSourceConfig;
 import com.example.tasklist.repository.TaskRepository;
 import com.example.tasklist.repository.mappers.TaskRowMapper;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -25,7 +26,7 @@ public class TaskRepositoryImpl implements TaskRepository {
                    t.expiration_date as task_expiration_date,
                    t.status          as task_status
             FROM tasks t
-            WHERE id = ?
+            WHERE t.id = ?
             """;
 
     private final String FIND_ALL_BY_USER_ID = """

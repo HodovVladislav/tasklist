@@ -1,6 +1,7 @@
 package com.example.tasklist.repository;
 
 import com.example.tasklist.domain.task.Task;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,7 +12,8 @@ public interface TaskRepository {
 
     List<Task> findAllByUserId(long userId);
 
-    void assignToUserById(long taskId, long userId);
+    void assignToUserById(@Param("taskId") long taskId,
+                          @Param("userId") long userId);
 
     void update(Task task);
 
