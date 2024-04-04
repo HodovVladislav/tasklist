@@ -4,6 +4,7 @@ import com.example.tasklist.domain.task.Status;
 import com.example.tasklist.web.dto.validation.OnCreate;
 import com.example.tasklist.web.dto.validation.OnUpdate;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
@@ -12,6 +13,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDateTime;
 
 @Data
+@Schema(description = "Task DTO")
 public class TaskDto {
 
     @NotNull(message = "Id should not be empty", groups = OnUpdate.class)
