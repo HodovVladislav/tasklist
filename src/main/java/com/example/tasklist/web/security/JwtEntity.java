@@ -11,7 +11,7 @@ import java.util.Collection;
 @AllArgsConstructor
 public class JwtEntity implements UserDetails {
 
-    private long id;
+    private Long id;
     private final String username;
     private final String name;
     private final String password;

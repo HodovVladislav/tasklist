@@ -89,7 +89,7 @@ public class UserRepositoryImpl implements UserRepository {
             """;
 
     @Override
-    public Optional<User> findById(long id) {
+    public Optional<User> findById(Long id) {
         try {
             Connection connection = dataSourceConfig.getConnection();
             PreparedStatement statement = connection.prepareStatement(FIND_BY_ID,
@@ -156,7 +156,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void insertUserRole(long userId, Role role) {
+    public void insertUserRole(Long userId, Role role) {
         try {
             Connection connection = dataSourceConfig.getConnection();
             PreparedStatement statement = connection.prepareStatement(INSERT_USER_ROLE);
@@ -169,7 +169,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public boolean isTaskOwner(long userId, long taskId) {
+    public boolean isTaskOwner(Long userId, Long taskId) {
         try {
             Connection connection = dataSourceConfig.getConnection();
             PreparedStatement statement = connection.prepareStatement(IS_TASK_OWNER);
@@ -185,7 +185,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void delete(long id) {
+    public void delete(Long id) {
         try {
             Connection connection = dataSourceConfig.getConnection();
             PreparedStatement statement = connection.prepareStatement(DELETE);

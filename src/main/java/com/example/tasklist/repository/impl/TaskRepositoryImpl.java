@@ -66,7 +66,7 @@ public class TaskRepositoryImpl implements TaskRepository {
 
 
     @Override
-    public Optional<Task> findById(long id) {
+    public Optional<Task> findById(Long id) {
         try {
             Connection connection = dataSourceConfig.getConnection();
             PreparedStatement statement = connection.prepareStatement(FIND_BY_ID);
@@ -80,7 +80,7 @@ public class TaskRepositoryImpl implements TaskRepository {
     }
 
     @Override
-    public List<Task> findAllByUserId(long userId) {
+    public List<Task> findAllByUserId(Long userId) {
         try {
             Connection connection = dataSourceConfig.getConnection();
             PreparedStatement statement = connection.prepareStatement(FIND_ALL_BY_USER_ID);
@@ -94,7 +94,7 @@ public class TaskRepositoryImpl implements TaskRepository {
     }
 
     @Override
-    public void assignToUserById(long taskId, long userId) {
+    public void assignToUserById(Long taskId, Long userId) {
         try {
             Connection connection = dataSourceConfig.getConnection();
             PreparedStatement statement = connection.prepareStatement(ASSIGN_TO_USER_BY_ID);
@@ -154,7 +154,7 @@ public class TaskRepositoryImpl implements TaskRepository {
     }
 
     @Override
-    public void delete(long id) {
+    public void delete(Long id) {
         try {
             Connection connection = dataSourceConfig.getConnection();
             PreparedStatement statement = connection.prepareStatement(DELETE, PreparedStatement.RETURN_GENERATED_KEYS);

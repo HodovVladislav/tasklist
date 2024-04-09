@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class TaskDto {
 
     @NotNull(message = "Id should not be empty", groups = OnUpdate.class)
-    private long id;
+    private Long id;
 
     @NotNull(message = "Title should not be empty", groups = {OnCreate.class, OnUpdate.class})
     @Length(max = 255, message = "Title should be shorter than 255 symbols", groups = {OnCreate.class, OnUpdate.class})

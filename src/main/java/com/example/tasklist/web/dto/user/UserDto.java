@@ -14,7 +14,7 @@ public class UserDto {
 
     @Schema(description = "User id", example = "1")
     @NotNull(message = "Id should not be empty", groups = OnUpdate.class)
-    private long id;
+    private Long id;
 
     @Schema(description = "User name", example = "John Doe")
     @NotNull(message = "Name should not be empty", groups = {OnCreate.class, OnUpdate.class})

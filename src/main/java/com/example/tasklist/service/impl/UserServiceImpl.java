@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public User getById(long id) {
+    public User getById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found."));
     }
@@ -61,8 +61,8 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public boolean isTaskOwner(
-            final long userId,
-            final long taskId
+            final Long userId,
+            final Long taskId
     ) {
         return userRepository.isTaskOwner(userId, taskId);
     }
@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void delete(
-            final long id
+            final Long id
     ) {
         userRepository.delete(id);
     }

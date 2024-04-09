@@ -32,14 +32,14 @@ public class TaskController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get task by id")
-    public TaskDto getById(@PathVariable long id) {
+    public TaskDto getById(@PathVariable Long id) {
         Task task = taskService.getById(id);
         return taskMapper.toDto(task);
     }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete task by id")
-    public void deleteById(@PathVariable long id) {
+    public void deleteById(@PathVariable Long id) {
         taskService.delete(id);
     }
 

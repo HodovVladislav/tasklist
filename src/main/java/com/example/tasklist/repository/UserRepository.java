@@ -11,7 +11,7 @@ import java.util.Optional;
 @Mapper
 public interface UserRepository {
 
-    Optional<User> findById(long id);
+    Optional<User> findById(Long id);
 
     Optional<User> findByUsername(String username);
 
@@ -19,10 +19,10 @@ public interface UserRepository {
 
     void create(User user);
 
-    void insertUserRole(@Param("userId") long userId, @Param("role") Role role);
+    void insertUserRole(@Param("userId") Long userId, @Param("role") Role role);
 
-    boolean isTaskOwner(@Param("userId") long userId, @Param("taskId") long taskId);
+    boolean isTaskOwner(@Param("userId") Long userId, @Param("taskId") Long taskId);
 
-    void delete(long id);
+    void delete(Long id);
 
 }

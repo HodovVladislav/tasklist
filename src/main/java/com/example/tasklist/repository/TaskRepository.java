@@ -10,17 +10,17 @@ import java.util.Optional;
 @Mapper
 public interface TaskRepository {
 
-    Optional<Task> findById(long id);
+    Optional<Task> findById(Long id);
 
-    List<Task> findAllByUserId(long userId);
+    List<Task> findAllByUserId(Long userId);
 
-    void assignToUserById(@Param("taskId") long taskId,
-                          @Param("userId") long userId);
+    void assignToUserById(@Param("taskId") Long taskId,
+                          @Param("userId") Long userId);
 
     void update(Task task);
 
     void create(Task task);
 
-    void delete(long id);
+    void delete(Long id);
 
 }

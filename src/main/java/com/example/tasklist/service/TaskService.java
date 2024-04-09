@@ -6,14 +6,14 @@ import java.util.List;
 
 public interface TaskService {
 
-    Task getById(long id);
+    Task getById(Long id);
 
-    List<Task> getAllByUserId(long id);
+    List<Task> getAllByUserId(Long id);
 
     Task update(Task task);
 
-    Task create(Task task, long userId);
+    Task create(Task task, Long userId);
 
-    void delete(long id);
+    void delete(Long id);
 
 }

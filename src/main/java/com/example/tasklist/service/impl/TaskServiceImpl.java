@@ -19,14 +19,14 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional(readOnly = true)
-    public Task getById(long id) {
+    public Task getById(Long id) {
         return taskRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Task not found."));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Task> getAllByUserId(long id) {
+    public List<Task> getAllByUserId(Long id) {
         return taskRepository.findAllByUserId(id);
     }
 
@@ -42,7 +42,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional
-    public Task create(Task task, long userId) {
+    public Task create(Task task, Long userId) {
         task.setStatus(Status.TODO);
         taskRepository.create(task);
         taskRepository.assignToUserById(task.getId(), userId);
@@ -51,7 +51,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional
-    public void delete(long id) {
+    public void delete(Long id) {
         taskRepository.delete(id);
     }
 

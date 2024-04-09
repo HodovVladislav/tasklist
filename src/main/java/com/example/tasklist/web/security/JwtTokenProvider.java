@@ -42,7 +42,7 @@ public class JwtTokenProvider {
     }
 
     public String createAccessToken(
-            final long userId,
+            final Long userId,
             final String username,
             final Set<Role> roles
     ) {
@@ -69,7 +69,7 @@ public class JwtTokenProvider {
     }
 
     public String createRefreshToken(
-            final long userId,
+            final Long userId,
             final String username
     ) {
         Claims claims = Jwts.claims()
@@ -92,7 +92,7 @@ public class JwtTokenProvider {
         if (!isValid(refreshToken)) {
             throw new AccessDeniedException();
         }
-        long userId = Long.valueOf(getId(refreshToken));
+        Long userId = Long.valueOf(getId(refreshToken));
         User user = userService.getById(userId);
         jwtResponse.setId(userId);
         jwtResponse.setUsername(user.getUsername());
